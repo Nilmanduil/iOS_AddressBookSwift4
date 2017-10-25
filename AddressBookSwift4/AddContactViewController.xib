@@ -11,7 +11,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddContactViewController" customModule="AddressBookSwift4" customModuleProvider="target">
             <connections>
-                <outlet property="nameField" destination="mLo-zB-RnB" id="RdA-xB-tOf"/>
+                <outlet property="firstnameField" destination="mLo-zB-RnB" id="k8l-YX-eve"/>
+                <outlet property="lastnameField" destination="mMF-bw-wyv" id="6GU-9f-CJX"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -27,8 +28,14 @@
                         <action selector="didPressAdd:" destination="-1" eventType="touchUpInside" id="s0w-Zr-Qhz"/>
                     </connections>
                 </button>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mLo-zB-RnB">
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Prénom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mLo-zB-RnB">
                     <rect key="frame" x="40" y="120" width="295" height="30"/>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mMF-bw-wyv">
+                    <rect key="frame" x="40" y="165" width="295" height="30"/>
                     <nil key="textColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
@@ -38,7 +45,10 @@
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="mLo-zB-RnB" secondAttribute="trailing" constant="40" id="BAR-R5-vwY"/>
                 <constraint firstItem="mLo-zB-RnB" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="40" id="KMw-FK-jhk"/>
+                <constraint firstItem="mMF-bw-wyv" firstAttribute="top" secondItem="mLo-zB-RnB" secondAttribute="bottom" constant="15" id="S3G-RU-vDB"/>
                 <constraint firstItem="P58-3q-Aeq" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="WzE-Hg-hsz"/>
+                <constraint firstItem="mMF-bw-wyv" firstAttribute="width" secondItem="mLo-zB-RnB" secondAttribute="width" id="YKf-S1-vyD"/>
+                <constraint firstItem="mMF-bw-wyv" firstAttribute="centerX" secondItem="mLo-zB-RnB" secondAttribute="centerX" id="acs-W7-QS1"/>
                 <constraint firstItem="P58-3q-Aeq" firstAttribute="top" secondItem="mLo-zB-RnB" secondAttribute="bottom" constant="100" id="rrD-D9-Ys8"/>
                 <constraint firstItem="mLo-zB-RnB" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="100" id="uTL-th-Jvg"/>
             </constraints>

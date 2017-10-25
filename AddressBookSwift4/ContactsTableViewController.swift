@@ -10,18 +10,22 @@ import UIKit
 
 class ContactsTableViewController: UITableViewController {
     
-    var persons : [String] = [String]()
+    var persons : [Contact] = [Contact]()
         
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Mes Contacts"
-        persons.append("Arthur Pendragon")
+        /*persons.append("Arthur Pendragon")
         persons.append("Ada Lovelace")
         persons.append("Alan Turing")
         persons.append("Stephen Hawking")
         persons.append("Marie Curie")
-        persons.append("Albert Einstein")
+        persons.append("Albert Einstein")*/
+        persons.append(Contact(firstname: "Alan", lastname: "Turing"))
+        persons.append(Contact(firstname: "Ada", lastname: "Lovelace"))
+        persons.append(Contact(firstname: "Stephen", lastname: "Hawking"))
+        persons.append(Contact(firstname: "Marie", lastname: "Curie"))
 
         // self.tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "ContactTableViewCell")
         
@@ -70,7 +74,7 @@ class ContactsTableViewController: UITableViewController {
 
         // Configure the cell...
         if let contactCell = cell as? ContactTableViewCell {
-            contactCell.nameLabel.text = persons[indexPath.row]
+            contactCell.nameLabel.text = persons[indexPath.row].getFullName()
         }
 
         return cell
@@ -125,8 +129,8 @@ class ContactsTableViewController: UITableViewController {
 }
 
 extension ContactsTableViewController : AddContactDelegate {
-    func addContact(name: String) {
-        persons.append(name)
+    func addContact(firstname: String, lastname: String) {
+        persons.append(Contact(firstname: firstname, lastname: lastname))
         self.navigationController?.popViewController(animated: true)
         tableView.reloadData()
     }

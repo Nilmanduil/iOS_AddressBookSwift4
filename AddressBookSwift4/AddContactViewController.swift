@@ -12,11 +12,12 @@ class AddContactViewController: UIViewController {
     
     weak var delegate : AddContactDelegate?
 
-    @IBOutlet weak var nameField: UITextField!
+    @IBOutlet weak var firstnameField: UITextField!
+    @IBOutlet weak var lastnameField: UITextField!
     
     @IBAction func didPressAdd(_ sender: Any) {
-        if let text =  nameField.text {
-            self.delegate?.addContact(name: text)
+        if let firstname =  firstnameField.text, let lastname = lastnameField.text {
+            self.delegate?.addContact(firstname: firstname, lastname: lastname)
         }
     }
     
@@ -46,5 +47,5 @@ class AddContactViewController: UIViewController {
 }
 
 protocol AddContactDelegate: AnyObject {
-    func addContact(name: String) -> Void
+    func addContact(firstname: String, lastname: String) -> Void
 }
