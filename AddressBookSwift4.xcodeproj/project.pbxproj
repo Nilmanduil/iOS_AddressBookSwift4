@@ -20,6 +20,8 @@
 		F94511471FA08F9E000029A5 /* AddContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94511451FA08F9E000029A5 /* AddContactViewController.swift */; };
 		F94511481FA08F9E000029A5 /* AddContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F94511461FA08F9E000029A5 /* AddContactViewController.xib */; };
 		F945114A1FA09BCB000029A5 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94511491FA09BCB000029A5 /* Contact.swift */; };
+		F945114D1FA0B750000029A5 /* ContactDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F945114B1FA0B750000029A5 /* ContactDetailsViewController.swift */; };
+		F945114E1FA0B750000029A5 /* ContactDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F945114C1FA0B750000029A5 /* ContactDetailsViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,8 @@
 		F94511451FA08F9E000029A5 /* AddContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactViewController.swift; sourceTree = "<group>"; };
 		F94511461FA08F9E000029A5 /* AddContactViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddContactViewController.xib; sourceTree = "<group>"; };
 		F94511491FA09BCB000029A5 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		F945114B1FA0B750000029A5 /* ContactDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsViewController.swift; sourceTree = "<group>"; };
+		F945114C1FA0B750000029A5 /* ContactDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactDetailsViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +113,8 @@
 		F945110D1FA07F78000029A5 /* AddressBookSwift4 */ = {
 			isa = PBXGroup;
 			children = (
+				F945114B1FA0B750000029A5 /* ContactDetailsViewController.swift */,
+				F945114C1FA0B750000029A5 /* ContactDetailsViewController.xib */,
 				F945110E1FA07F78000029A5 /* AppDelegate.swift */,
 				F94511121FA07F78000029A5 /* Main.storyboard */,
 				F94511181FA07F78000029A5 /* Assets.xcassets */,
@@ -252,6 +258,7 @@
 			files = (
 				F945111C1FA07F78000029A5 /* LaunchScreen.storyboard in Resources */,
 				F94511191FA07F78000029A5 /* Assets.xcassets in Resources */,
+				F945114E1FA0B750000029A5 /* ContactDetailsViewController.xib in Resources */,
 				F94511421FA0803D000029A5 /* ContactsTableViewController.xib in Resources */,
 				F94511481FA08F9E000029A5 /* AddContactViewController.xib in Resources */,
 				F94511141FA07F78000029A5 /* Main.storyboard in Resources */,
@@ -280,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F945114A1FA09BCB000029A5 /* Contact.swift in Sources */,
+				F945114D1FA0B750000029A5 /* ContactDetailsViewController.swift in Sources */,
 				F94511471FA08F9E000029A5 /* AddContactViewController.swift in Sources */,
 				F94511441FA0818E000029A5 /* ContactTableViewCell.swift in Sources */,
 				F94511171FA07F78000029A5 /* AddressBookSwift4.xcdatamodeld in Sources */,

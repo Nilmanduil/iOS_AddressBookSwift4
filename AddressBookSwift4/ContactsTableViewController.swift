@@ -80,6 +80,12 @@ class ContactsTableViewController: UITableViewController {
         return cell
     }
     //*/
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var controller = ContactDetailsViewController(nibName: nil, bundle: nil)
+        controller.contact = self.persons[indexPath.row]
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
 
     /*
     // Override to support conditional editing of the table view.
