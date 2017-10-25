@@ -16,12 +16,20 @@ class ContactsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.title = "Mes Contacts"
-        /*persons.append("Arthur Pendragon")
-        persons.append("Ada Lovelace")
-        persons.append("Alan Turing")
-        persons.append("Stephen Hawking")
-        persons.append("Marie Curie")
-        persons.append("Albert Einstein")*/
+        // Import names.plist
+        let namesPlist = Bundle.main.path(forResource: "names", ofType: "plist")
+        let url = URL(fileURLWithPath: (namesPlist)!)
+        let dataArray = NSArray(contentsOf: url)
+        print(dataArray ?? NSArray())
+        
+        for dict in dataArray! {
+            if let dictionary = dict as? [String: String] {
+                print(dictionary)
+                let person = Contact(firstname: dictionary["name"]!, lastname: dictionary["lastname"]!)
+                persons.append(person)
+            }
+        }
+        
         persons.append(Contact(firstname: "Alan", lastname: "Turing"))
         persons.append(Contact(firstname: "Ada", lastname: "Lovelace"))
         persons.append(Contact(firstname: "Stephen", lastname: "Hawking"))

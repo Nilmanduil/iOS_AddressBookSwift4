@@ -22,6 +22,7 @@
 		F945114A1FA09BCB000029A5 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94511491FA09BCB000029A5 /* Contact.swift */; };
 		F945114D1FA0B750000029A5 /* ContactDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F945114B1FA0B750000029A5 /* ContactDetailsViewController.swift */; };
 		F945114E1FA0B750000029A5 /* ContactDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F945114C1FA0B750000029A5 /* ContactDetailsViewController.xib */; };
+		F94511501FA0D403000029A5 /* names.plist in Resources */ = {isa = PBXBuildFile; fileRef = F945114F1FA0D403000029A5 /* names.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		F94511491FA09BCB000029A5 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		F945114B1FA0B750000029A5 /* ContactDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsViewController.swift; sourceTree = "<group>"; };
 		F945114C1FA0B750000029A5 /* ContactDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactDetailsViewController.xib; sourceTree = "<group>"; };
+		F945114F1FA0D403000029A5 /* names.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = names.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 		F945110D1FA07F78000029A5 /* AddressBookSwift4 */ = {
 			isa = PBXGroup;
 			children = (
+				F945114F1FA0D403000029A5 /* names.plist */,
 				F945114B1FA0B750000029A5 /* ContactDetailsViewController.swift */,
 				F945114C1FA0B750000029A5 /* ContactDetailsViewController.xib */,
 				F945110E1FA07F78000029A5 /* AppDelegate.swift */,
@@ -256,6 +259,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F94511501FA0D403000029A5 /* names.plist in Resources */,
 				F945111C1FA07F78000029A5 /* LaunchScreen.storyboard in Resources */,
 				F94511191FA07F78000029A5 /* Assets.xcassets in Resources */,
 				F945114E1FA0B750000029A5 /* ContactDetailsViewController.xib in Resources */,
