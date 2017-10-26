@@ -16,7 +16,7 @@ class ContactDetailsViewController: UIViewController {
     @IBOutlet weak var lastnameLabel: UILabel!
     
     @IBAction func didPressDelete(_ sender: Any) {
-        let alertController : UIAlertController = UIAlertController(title: "Suppression du contact", message: "Voulez-vous vraiment supprimer " + contact.getFullName() + " ?", preferredStyle: UIAlertControllerStyle.alert)
+        let alertController : UIAlertController = UIAlertController(title: "Suppression du contact", message: "Voulez-vous vraiment supprimer " /*+ contact.getFullName()*/ + " ?", preferredStyle: UIAlertControllerStyle.alert)
         let confirmAction = UIAlertAction(title: "SUPPRIMER", style: UIAlertActionStyle.destructive, handler: {
             alert -> Void in
             
@@ -35,7 +35,7 @@ class ContactDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = contact.getFullName()
+        // self.title = contact.getFullName()
         firstnameLabel.text = contact.firstname
         lastnameLabel.text = contact.lastname
     }

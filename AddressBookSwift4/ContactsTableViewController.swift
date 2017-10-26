@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ContactsTableViewController: UITableViewController {
     
@@ -22,7 +23,7 @@ class ContactsTableViewController: UITableViewController {
         let dataArray = NSArray(contentsOf: url)
         print(dataArray ?? NSArray())
         
-        for dict in dataArray! {
+        /*for dict in dataArray! {
             if let dictionary = dict as? [String: String] {
                 print(dictionary)
                 let person = Contact(firstname: dictionary["name"]!, lastname: dictionary["lastname"]!)
@@ -33,7 +34,31 @@ class ContactsTableViewController: UITableViewController {
         persons.append(Contact(firstname: "Alan", lastname: "Turing"))
         persons.append(Contact(firstname: "Ada", lastname: "Lovelace"))
         persons.append(Contact(firstname: "Stephen", lastname: "Hawking"))
-        persons.append(Contact(firstname: "Marie", lastname: "Curie"))
+        persons.append(Contact(firstname: "Marie", lastname: "Curie"))*/
+        
+        
+        /*let context = appDelegate().persistentContainer.viewContext
+        let person = Contact(entity: Contact.entity(), insertInto: context)
+        person.firstname = "Thibault"
+        person.lastname = "Goudouneix"
+        
+        do {
+            try context.save()
+        } catch {
+            print(error.localizedDescription)
+        }*/
+        reloadDataFromDatabase()
+        
+        let hasVisitedKey : String = "hasVisited"
+        if let value = UserDefaults.standard.value(forKey: hasVisitedKey) {
+            
+        } else {
+            let welcomeAlertController = UIAlertController(title: "Bienvenue", message: "Merci d'avoir lancé l'application", preferredStyle: UIAlertControllerStyle.alert)
+            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+            welcomeAlertController.addAction(okAction)
+            self.present(welcomeAlertController, animated: true)
+            UserDefaults.standard.set(true, forKey: hasVisitedKey)
+        }
 
         // self.tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "ContactTableViewCell")
         
@@ -45,6 +70,20 @@ class ContactsTableViewController: UITableViewController {
         
         let addContact = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addContactPress))
         self.navigationItem.rightBarButtonItem = addContact
+    }
+    
+    func reloadDataFromDatabase() {
+        let fetchRequest = NSFetchRequest<Contact>(entityName: "Contact")
+        let sortFirstname = NSSortDescriptor(key: "firstname", ascending: true)
+        let sortLastname = NSSortDescriptor(key: "lastname", ascending: true)
+        fetchRequest.sortDescriptors = [sortFirstname, sortLastname]
+        
+        let context = self.appDelegate().persistentContainer.viewContext
+        
+        guard let contactsDB = try? context.fetch(fetchRequest) else { return }
+        print(contactsDB)
+        persons = contactsDB
+        tableView.reloadData()
     }
     
     @objc func addContactPress() {
@@ -82,7 +121,8 @@ class ContactsTableViewController: UITableViewController {
 
         // Configure the cell...
         if let contactCell = cell as? ContactTableViewCell {
-            contactCell.nameLabel.text = persons[indexPath.row].getFullName()
+            // contactCell.nameLabel.text = persons[indexPath.row].getFullName()
+            contactCell.nameLabel.text = persons[indexPath.row].firstname! + " " + persons[indexPath.row].lastname!
         }
 
         return cell
@@ -90,7 +130,7 @@ class ContactsTableViewController: UITableViewController {
     //*/
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var controller = ContactDetailsViewController(nibName: nil, bundle: nil)
+        let controller = ContactDetailsViewController(nibName: nil, bundle: nil)
         controller.contact = self.persons[indexPath.row]
         self.navigationController?.pushViewController(controller, animated: true)
     }
@@ -144,8 +184,19 @@ class ContactsTableViewController: UITableViewController {
 
 extension ContactsTableViewController : AddContactDelegate {
     func addContact(firstname: String, lastname: String) {
-        persons.append(Contact(firstname: firstname, lastname: lastname))
+        let context = appDelegate().persistentContainer.viewContext
+        let person = Contact(entity: Contact.entity(), insertInto: context)
+        person.firstname = firstname
+        person.lastname = lastname
+        
+        do {
+            try context.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+        //persons.append(Contact(firstname: firstname, lastname: lastname))
         self.navigationController?.popViewController(animated: true)
-        tableView.reloadData()
+        //tableView.reloadData()
+        reloadDataFromDatabase()
     }
 }

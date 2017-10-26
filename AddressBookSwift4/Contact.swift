@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Contact {
+/*class Contact {
     var firstname : String
     var lastname : String
     
@@ -20,4 +20,6 @@ class Contact {
     func getFullName() -> String {
         return firstname + " " + lastname
     }
-}
+    
+    
+}*/
