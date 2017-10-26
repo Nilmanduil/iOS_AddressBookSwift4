@@ -12,6 +12,7 @@ import CoreData
 class ContactsTableViewController: UITableViewController {
     
     var persons : [Contact] = [Contact]()
+    var resultController: NSFetchedResultsController<Contact>!
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +35,16 @@ class ContactsTableViewController: UITableViewController {
             }
         }*/
         
-        reloadDataFromDatabase()
+        // reloadDataFromDatabase()
+        let fetchRequest = NSFetchRequest<Contact>(entityName: "Contact")
+        let sortFirstname = NSSortDescriptor(key: "firstname", ascending: true)
+        let sortLastname = NSSortDescriptor(key: "lastname", ascending: true)
+        fetchRequest.sortDescriptors = [sortFirstname, sortLastname]
+        
+        resultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.appDelegate().persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        resultController.delegate = self
+        
+        try? resultController.performFetch()
         
         setWelcomeMessageIfNeeded()
 
@@ -84,7 +94,7 @@ class ContactsTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    /*override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
@@ -92,13 +102,13 @@ class ContactsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return persons.count
-    }
+    }*/
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 40
     }
 
-    //*
+    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactTableViewCell", for: indexPath)
 
@@ -110,11 +120,11 @@ class ContactsTableViewController: UITableViewController {
 
         return cell
     }
-    //*/
+    */
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let controller = ContactDetailsViewController(nibName: nil, bundle: nil)
-        controller.contact = self.persons[indexPath.row]
+        controller.contact = resultController.object(at: indexPath)
         controller.deleteDelegate = self
         self.navigationController?.pushViewController(controller, animated: true)
     }
@@ -179,7 +189,7 @@ extension ContactsTableViewController : AddContactDelegate {
             print(error.localizedDescription)
         }
         self.navigationController?.popViewController(animated: true)
-        reloadDataFromDatabase()
+        //reloadDataFromDatabase()
     }
 }
 
@@ -189,6 +199,48 @@ extension ContactsTableViewController : DeleteContactDelegate {
         context.delete(contact)
         try? context.save()
         self.navigationController?.popViewController(animated: true)
-        reloadDataFromDatabase()
+        //reloadDataFromDatabase()
+    }
+}
+
+extension ContactsTableViewController : NSFetchedResultsControllerDelegate {
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        if let frc = self.resultController {
+            return frc.sections!.count
+        }
+        return 0
+    }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let sections = self.resultController?.sections else {
+            fatalError("No sections in fetchedResultsController")
+        }
+        let sectionInfo = sections[section]
+        return sectionInfo.numberOfObjects
+    }
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactTableViewCell", for: indexPath)
+        guard let object = self.resultController?.object(at: indexPath) else {
+            fatalError("Attempt to configure cell without a managed object")
+        }
+        cell.textLabel?.text = String(object.firstname! + " " + object.lastname!)
+        return cell
+    }
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = resultController?.sections?[section] else {
+            return nil
+        }
+        return sectionInfo.name
+    }
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return resultController?.sectionIndexTitles
+    }
+    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        guard let result = resultController?.section(forSectionIndexTitle: title, at: index) else {
+            fatalError("Unable to locate section for \(title) at index: \(index)")
+        }
+        return result
+    }
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.reloadData()
     }
 }
