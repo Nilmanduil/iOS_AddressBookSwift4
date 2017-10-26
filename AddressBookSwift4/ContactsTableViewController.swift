@@ -35,6 +35,9 @@ class ContactsTableViewController: UITableViewController {
             }
         }*/
         
+        // Get data from server
+        appDelegate().getDataFromServer()
+        
         let fetchRequest = NSFetchRequest<Contact>(entityName: "Contact")
         let sortFirstname = NSSortDescriptor(key: "firstname", ascending: true)
         let sortLastname = NSSortDescriptor(key: "lastname", ascending: true)

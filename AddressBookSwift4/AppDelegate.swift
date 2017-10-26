@@ -88,7 +88,95 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
+    
+    func getDataFromServer() {
+        let url = URL(string: "http://10.1.0.242:3000/persons")!
+        let task = URLSession.shared.dataTask(with: url) {
+            data, response, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    print("Error: \(error.localizedDescription)")
+                }
+                return
+            }
+            let jsonObject = data!
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                DispatchQueue.main.async {
+                    print("Server Error")
+                }
+                return
+            }
+            
+            if let string = String (data: jsonObject, encoding: .utf8) {
+                DispatchQueue.main.async {
+                    let dictionary = try? JSONSerialization.jsonObject(with: jsonObject, options: JSONSerialization.ReadingOptions.mutableContainers)
+                    
+                    guard let jsonDict = dictionary as? [[String : Any]] else {
+                        return
+                    }
+                    
+                    self.updateFromJsonData(json: jsonDict)
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    func updateFromJsonData(json: [[String : Any]]) {
+        let fetchRequest = NSFetchRequest<Contact>(entityName: "Contact")
+        let sortFirstname = NSSortDescriptor(key: "firstname", ascending: true)
+        let sortLastname = NSSortDescriptor(key: "lastname", ascending: true)
+        fetchRequest.sortDescriptors = [sortFirstname, sortLastname]
+        
+        let context = self.persistentContainer.viewContext
+        
+        let contacts = try! context.fetch(fetchRequest)
+        let contactIds = contacts.map({ (contact) -> Int32 in
+            return contact.id
+        })
+        
+        let serverIds = json.map({ (dict) -> Int in
+            return dict["id"] as? Int ?? 0
+        })
+        
+        // Delete data that is not on server
+        for contact in contacts {
+            if !serverIds.contains(Int(contact.id)) {
+                context.delete(contact)
+            }
+        }
+        
+        // Update or create
+        for contactDict in json {
+            let id = contactDict["id"] as? Int ?? 0
+            if let index = contactIds.index(of: Int32(id)) {
+                contacts[index].firstname = contactDict["surname"] as? String ?? "ERROR"
+                contacts[index].lastname = contactDict["lastname"] as? String ?? "ERROR"
+                contacts[index].avatarUrl = contactDict["pictureUrl"] as? String ?? ""
+            } else {
+                let contact = Contact(context: context)
+                contact.id = Int32(id)
+                contact.firstname = contactDict["surname"] as? String
+                contact.lastname = contactDict["lastname"] as? String
+                contact.avatarUrl = contactDict["pictureUrl"] as? String
+            }
+            
+            do {
+                if context.hasChanges {
+                    try context.save()
+                }
+            } catch {
+                print(error)
+            }
+            
+            /* let contact = Contact(entity: Contact.entity(), insertInto: context)
+            contact.id = contactDict["id"] as? Int32 ?? 0
+            contact.firstname = contactDict["surname"] as? String ?? "DefaultName"
+            contact.lastname = contactDict["lastname"] as? String ?? "DefaultName"
+            contact.avatarUrl = contactDict["pictureUrl"] as? String ?? "" */
+        }
+    }
 }
 
 extension UIViewController {
