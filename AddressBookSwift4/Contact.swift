@@ -8,18 +8,17 @@
 
 import Foundation
 
-/*class Contact {
-    var firstname : String
-    var lastname : String
-    
-    init(firstname: String, lastname : String) {
-        self.firstname = firstname
-        self.lastname = lastname
+extension Contact {
+    var firstLetter: String {
+        if let first = firstname?.characters.first {
+            return String(first)
+        } else {
+            return "?"
+        }
     }
     
     func getFullName() -> String {
-        return firstname + " " + lastname
+        return (firstname)! + " " + (lastname)!
     }
     
-    
-}*/
+}
