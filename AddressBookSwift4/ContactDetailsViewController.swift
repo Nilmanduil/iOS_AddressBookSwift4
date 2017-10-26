@@ -11,6 +11,7 @@ import UIKit
 class ContactDetailsViewController: UIViewController {
     
     var contact : Contact! = nil
+    weak var deleteDelegate : DeleteContactDelegate?
 
     @IBOutlet weak var firstnameLabel: UILabel!
     @IBOutlet weak var lastnameLabel: UILabel!
@@ -21,6 +22,7 @@ class ContactDetailsViewController: UIViewController {
             alert -> Void in
             
             print("Suppression")
+            self.deleteDelegate?.deleteContact(contact: self.contact)
         })
         let cancelAction = UIAlertAction(title: "Annuler", style: UIAlertActionStyle.cancel, handler: {
             alert -> Void in
@@ -56,4 +58,8 @@ class ContactDetailsViewController: UIViewController {
     }
     */
 
+}
+
+protocol DeleteContactDelegate: AnyObject {
+    func deleteContact(contact: Contact) -> Void
 }
