@@ -35,7 +35,6 @@ class ContactsTableViewController: UITableViewController {
             }
         }*/
         
-        // reloadDataFromDatabase()
         let fetchRequest = NSFetchRequest<Contact>(entityName: "Contact")
         let sortFirstname = NSSortDescriptor(key: "firstname", ascending: true)
         let sortLastname = NSSortDescriptor(key: "lastname", ascending: true)
@@ -63,20 +62,6 @@ class ContactsTableViewController: UITableViewController {
             self.present(welcomeAlertController, animated: true)
             UserDefaults.standard.set(true, forKey: hasVisitedKey)
         }
-    }
-    
-    func reloadDataFromDatabase() {
-        let fetchRequest = NSFetchRequest<Contact>(entityName: "Contact")
-        let sortFirstname = NSSortDescriptor(key: "firstname", ascending: true)
-        let sortLastname = NSSortDescriptor(key: "lastname", ascending: true)
-        fetchRequest.sortDescriptors = [sortFirstname, sortLastname]
-        
-        let context = self.appDelegate().persistentContainer.viewContext
-        
-        guard let contactsDB = try? context.fetch(fetchRequest) else { return }
-        print(contactsDB)
-        persons = contactsDB
-        tableView.reloadData()
     }
     
     @objc func addContactPress() {
@@ -189,7 +174,6 @@ extension ContactsTableViewController : AddContactDelegate {
             print(error.localizedDescription)
         }
         self.navigationController?.popViewController(animated: true)
-        //reloadDataFromDatabase()
     }
 }
 
@@ -199,7 +183,6 @@ extension ContactsTableViewController : DeleteContactDelegate {
         context.delete(contact)
         try? context.save()
         self.navigationController?.popViewController(animated: true)
-        //reloadDataFromDatabase()
     }
 }
 
