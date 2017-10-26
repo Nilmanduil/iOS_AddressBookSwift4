@@ -17,38 +17,32 @@ class ContactsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.title = "Mes Contacts"
+        
+        // Old code here for example
+        /*
         // Import names.plist
         let namesPlist = Bundle.main.path(forResource: "names", ofType: "plist")
         let url = URL(fileURLWithPath: (namesPlist)!)
         let dataArray = NSArray(contentsOf: url)
         print(dataArray ?? NSArray())
         
-        /*for dict in dataArray! {
+        for dict in dataArray! {
             if let dictionary = dict as? [String: String] {
                 print(dictionary)
                 let person = Contact(firstname: dictionary["name"]!, lastname: dictionary["lastname"]!)
                 persons.append(person)
             }
-        }
-        
-        persons.append(Contact(firstname: "Alan", lastname: "Turing"))
-        persons.append(Contact(firstname: "Ada", lastname: "Lovelace"))
-        persons.append(Contact(firstname: "Stephen", lastname: "Hawking"))
-        persons.append(Contact(firstname: "Marie", lastname: "Curie"))*/
-        
-        
-        /*let context = appDelegate().persistentContainer.viewContext
-        let person = Contact(entity: Contact.entity(), insertInto: context)
-        person.firstname = "Thibault"
-        person.lastname = "Goudouneix"
-        
-        do {
-            try context.save()
-        } catch {
-            print(error.localizedDescription)
         }*/
+        
         reloadDataFromDatabase()
         
+        setWelcomeMessageIfNeeded()
+
+        let addContact = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addContactPress))
+        self.navigationItem.rightBarButtonItem = addContact
+    }
+    
+    func setWelcomeMessageIfNeeded() {
         let hasVisitedKey : String = "hasVisited"
         if let value = UserDefaults.standard.value(forKey: hasVisitedKey) {
             
@@ -59,17 +53,6 @@ class ContactsTableViewController: UITableViewController {
             self.present(welcomeAlertController, animated: true)
             UserDefaults.standard.set(true, forKey: hasVisitedKey)
         }
-
-        // self.tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "ContactTableViewCell")
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
-        let addContact = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addContactPress))
-        self.navigationItem.rightBarButtonItem = addContact
     }
     
     func reloadDataFromDatabase() {
