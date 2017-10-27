@@ -195,12 +195,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } catch {
                 print(error)
             }
-            
-            /* let contact = Contact(entity: Contact.entity(), insertInto: context)
-            contact.id = contactDict["id"] as? Int32 ?? 0
-            contact.firstname = contactDict["surname"] as? String ?? "DefaultName"
-            contact.lastname = contactDict["lastname"] as? String ?? "DefaultName"
-            contact.avatarUrl = contactDict["pictureUrl"] as? String ?? "" */
         }
     }
     
@@ -210,7 +204,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dictionary["lastname"] = contact.lastname
         dictionary["pictureUrl"] = "https://robohash.org/" + contact.firstname! + contact.lastname!
         let contactJson = try? JSONSerialization.data(withJSONObject: dictionary, options: JSONSerialization.WritingOptions.sortedKeys)
-        // print(contactJson)
+        
         var urlRequest = URLRequest(url: URL(string: "http://10.1.0.242:3000/persons")!)
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -236,10 +230,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             let id = dict["id"] as? Int32 ?? 0
             contact.id = id
-            /*print("Data : ")
-            print(String(describing: dictionary))
-            print("Response : ")
-            print(response)*/
         }
         task.resume()
     }

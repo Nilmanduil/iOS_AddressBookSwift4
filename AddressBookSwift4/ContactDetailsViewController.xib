@@ -35,8 +35,8 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iwt-2l-Xys">
-                    <rect key="frame" x="164.5" y="175" width="45" height="30"/>
-                    <state key="normal" title="Delete"/>
+                    <rect key="frame" x="151" y="175" width="72" height="30"/>
+                    <state key="normal" title="Supprimer"/>
                     <connections>
                         <action selector="didPressDelete:" destination="-1" eventType="touchUpInside" id="Vvd-Vb-SSj"/>
                     </connections>
