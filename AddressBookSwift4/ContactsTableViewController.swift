@@ -173,6 +173,7 @@ extension ContactsTableViewController : AddContactDelegate {
         
         do {
             try context.save()
+            appDelegate().sendContactToServer(contact: person)
         } catch {
             print(error.localizedDescription)
         }
@@ -182,9 +183,11 @@ extension ContactsTableViewController : AddContactDelegate {
 
 extension ContactsTableViewController : DeleteContactDelegate {
     func deleteContact(contact: Contact) {
+        appDelegate().deleteContactOnServer(contact: contact)
         let context = self.appDelegate().persistentContainer.viewContext
         context.delete(contact)
         try? context.save()
+        appDelegate().getDataFromServer()
         self.navigationController?.popViewController(animated: true)
     }
 }

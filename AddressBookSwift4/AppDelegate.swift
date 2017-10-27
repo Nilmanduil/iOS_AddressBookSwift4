@@ -177,6 +177,74 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             contact.avatarUrl = contactDict["pictureUrl"] as? String ?? "" */
         }
     }
+    
+    func sendContactToServer(contact: Contact) {
+        var dictionary = [String : Any]()
+        dictionary["surname"] = contact.firstname
+        dictionary["lastname"] = contact.lastname
+        dictionary["pictureUrl"] = "https://robohash.org/" + contact.firstname! + contact.lastname!
+        let contactJson = try? JSONSerialization.data(withJSONObject: dictionary, options: JSONSerialization.WritingOptions.sortedKeys)
+        // print(contactJson)
+        var urlRequest = URLRequest(url: URL(string: "http://10.1.0.242:3000/persons")!)
+        urlRequest.httpMethod = "POST"
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let task = URLSession.shared.uploadTask(with: urlRequest, from: contactJson) { data, response, error in
+            print("Post sent")
+            if let error = error {
+                print(error)
+                return
+            }
+            guard let response = response as? HTTPURLResponse, response.statusCode == 201 else {
+                print("Some error happened")
+                return
+            }
+            if response.mimeType == "text/plain" || response.mimeType == "text/plain",
+                let data = data {
+                print(data)
+            }
+            let dictionary = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)
+            
+            guard let dict = dictionary as? [String : Any] else {
+                return
+                
+            }
+            let id = dict["id"] as? Int32 ?? 0
+            contact.id = id
+            /*print("Data : ")
+            print(String(describing: dictionary))
+            print("Response : ")
+            print(response)*/
+        }
+        task.resume()
+    }
+    
+    func deleteContactOnServer(contact: Contact) {
+        var urlRequest = URLRequest(url: URL(string: "http://10.1.0.242:3000/persons/" + String(contact.id))!)
+        urlRequest.httpMethod = "DELETE"
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let task = URLSession.shared.dataTask(with: urlRequest) {
+            data, response, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    print("Error: \(error.localizedDescription)")
+                }
+                return
+            }
+            let jsonObject = data!
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                DispatchQueue.main.async {
+                    print("Server Error")
+                }
+                return
+            }
+            
+            if let string = String (data: jsonObject, encoding: .utf8) {
+                
+            }
+        }
+        task.resume()
+    }
 }
 
 extension UIViewController {
