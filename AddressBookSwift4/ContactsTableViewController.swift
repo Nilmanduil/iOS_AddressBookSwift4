@@ -177,6 +177,7 @@ extension ContactsTableViewController : AddContactDelegate {
         } catch {
             print(error.localizedDescription)
         }
+        appDelegate().getDataFromServer()
         self.navigationController?.popViewController(animated: true)
     }
 }
