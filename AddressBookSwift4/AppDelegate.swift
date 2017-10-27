@@ -123,41 +123,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         task.resume()
     }
     
-    func downloadResource(url: URL) -> Data? {
-        var finish: Bool = false, success: Bool = false
-        var dlData: Data? = nil
+    func downloadResource(url: URL, onImageDownloaded: ((Data)->())?){
         let task = URLSession.shared.dataTask(with: url) {
             data, response, error in
             if let error = error {
-                DispatchQueue.main.async {
-                    print("Error: \(error.localizedDescription)")
-                }
-                finish = true
-                success = false
+  
+                print("Error: \(error.localizedDescription)")
+       
                 return
             }
-            dlData = data!
+           
+            
+            if let data = data {
+                onImageDownloaded?(data)
+            }
             
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                DispatchQueue.main.async {
-                    print("Server Error")
-                }
-                finish = true
-                success = false
                 return
+           
             }
-            success = true
-            finish = true
+          
         }
         task.resume()
-        while(!finish) {
-            // Do nothing
-        }
-        if success {
-            return dlData
-        } else {
-            return nil
-        }
+       
+       
     }
     
     func updateFromJsonData(json: [[String : Any]]) {

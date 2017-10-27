@@ -41,10 +41,13 @@ class ContactDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = contact.getFullName()
-        let imageData = appDelegate().downloadResource(url: URL(string: contact.avatarUrl!)!)
-        avatar = UIImage(data: imageData!)
-        avatarView.image = avatar
         
+        appDelegate().downloadResource(url: URL(string: contact.avatarUrl!)!) { (data) in
+            self.avatar = UIImage(data: data)
+            DispatchQueue.main.async {
+                self.avatarView.image = self.avatar
+            }
+        }
         
         firstnameLabel.text = contact.firstname
         lastnameLabel.text = contact.lastname
